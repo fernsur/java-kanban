@@ -1,14 +1,17 @@
 package tasks;
 
+import java.util.Arrays;
+
 public class Epic extends Task {
-    protected String epicNumber;
-    public Epic(int id, String title, String description, Status status, String epicNumber) {
+    protected int[] epicSubtasks;
+
+    public Epic(int id, String title, String description, Status status, int[] epicSubtasks) {
         super(id, title, description, status);
-        this.epicNumber = epicNumber;
+        this.epicSubtasks = epicSubtasks;
     }
 
-    public String getEpicNumber() {
-        return epicNumber;
+    public int[] getEpicSubtasks() {
+        return epicSubtasks;
     }
 
     @Override
@@ -18,7 +21,7 @@ public class Epic extends Task {
                 ", Название ='" + title + '\'' +
                 ", Описание ='" + description + '\'' +
                 ", Статус ='" + status + '\'' +
-                ", Примечание ='" + epicNumber + '\'' +
+                ", Подзадачи ='" + Arrays.toString(epicSubtasks) + '\'' +
                 '}' +
                 "\n";
     }
