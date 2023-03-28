@@ -1,17 +1,21 @@
 package tasks;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Epic extends Task {
-    protected int[] epicSubtasks;
+    private ArrayList<Integer> epicSubtasks;
 
-    public Epic(int id, String title, String description, Status status, int[] epicSubtasks) {
+    public Epic(int id, String title, String description, Status status) {
         super(id, title, description, status);
-        this.epicSubtasks = epicSubtasks;
+        this.epicSubtasks = new ArrayList<>();
     }
 
-    public int[] getEpicSubtasks() {
+    public ArrayList<Integer> getEpicSubtasks() {
         return epicSubtasks;
+    }
+
+    public void setEpicSubtasks(ArrayList<Integer> epicSubtasks) {
+        this.epicSubtasks = epicSubtasks;
     }
 
     @Override
@@ -21,7 +25,7 @@ public class Epic extends Task {
                 ", Название ='" + title + '\'' +
                 ", Описание ='" + description + '\'' +
                 ", Статус ='" + status + '\'' +
-                ", Подзадачи ='" + Arrays.toString(epicSubtasks) + '\'' +
+                ", Подзадачи ='" + epicSubtasks + '\'' +
                 '}' +
                 "\n";
     }

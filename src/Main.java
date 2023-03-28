@@ -13,8 +13,7 @@ public class Main {
         taskManager.addTask(new Task(0,"Забрать квитанции","Утром из почтового ящика", Status.DONE));
         taskManager.addTask(new Task(0,"Заказать воду","До 14:00", Status.NEW));
 
-        taskManager.addEpic(new Epic(0,"Отправить посылку","До пятницы", Status.IN_PROGRESS,
-                new int[]{5, 6, 7}));
+        taskManager.addEpic(new Epic(0,"Отправить посылку","До пятницы", Status.IN_PROGRESS));
 
         taskManager.addSubtask(new Subtask(0,"Упаковать посылку","Перемотать скотчем коробку",
                 Status.DONE, 4));
@@ -24,7 +23,7 @@ public class Main {
                 Status.NEW, 4));
 
         taskManager.addEpic(new Epic(0,"Заполнить холодильник","Не забыть курицу",
-                Status.IN_PROGRESS, new int[]{9, 10}));
+                Status.IN_PROGRESS));
 
         taskManager.addSubtask(new Subtask(0,"Оформить доставку продуктов","Не забыть промокод",
                 Status.DONE,8));
@@ -41,8 +40,8 @@ public class Main {
 
         // Обновление всех видов задач
         taskManager.updateTask(new Task(2,"Оплатить квитанции","Не забыть счетчики", Status.DONE));
-        taskManager.updateEpic(new Epic(8,"Приготовить ужин","Не хватает курицы", Status.IN_PROGRESS,
-                new int[]{9, 10}));
+        taskManager.updateEpic(new Epic(8,"Приготовить ужин","Не хватает курицы",
+                Status.IN_PROGRESS));
         taskManager.updateSubtask(new Subtask(10,"Сварить суп"," ", Status.IN_PROGRESS,
                 8));
 
