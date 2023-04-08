@@ -1,3 +1,4 @@
+import manager.Managers;
 import manager.TaskManager;
 import tasks.Task;
 import tasks.Epic;
@@ -7,61 +8,65 @@ import tasks.Status;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
 
-        taskManager.addTask(new Task(0,"Выключить посудомойку","В 12:30", Status.NEW));
-        taskManager.addTask(new Task(0,"Забрать квитанции","Утром из почтового ящика", Status.DONE));
-        taskManager.addTask(new Task(0,"Заказать воду","До 14:00", Status.NEW));
+        manager.createTask(new Task(0,"Выключить посудомойку","В 12:30", Status.NEW));
+        manager.createTask(new Task(0,"Забрать квитанции","Утром из почтового ящика", Status.DONE));
+        manager.createTask(new Task(0,"Заказать воду","До 14:00", Status.NEW));
 
-        taskManager.addEpic(new Epic(0,"Отправить посылку","До пятницы", Status.IN_PROGRESS));
+        manager.createEpic(new Epic(0,"Отправить посылку","До пятницы", Status.IN_PROGRESS));
 
-        taskManager.addSubtask(new Subtask(0,"Упаковать посылку","Перемотать скотчем коробку",
+        manager.createSubtask(new Subtask(0,"Упаковать посылку","Перемотать скотчем коробку",
                 Status.DONE, 4));
-        taskManager.addSubtask(new Subtask(0,"Дойти до почты","На п. Карла Маркса",
+        manager.createSubtask(new Subtask(0,"Дойти до почты","На п. Карла Маркса",
                 Status.IN_PROGRESS, 4));
-        taskManager.addSubtask(new Subtask(0,"Оформить отправку","Не забыть наличные",
+        manager.createSubtask(new Subtask(0,"Оформить отправку","Не забыть наличные",
                 Status.NEW, 4));
 
-        taskManager.addEpic(new Epic(0,"Заполнить холодильник","Не забыть курицу",
+        manager.createEpic(new Epic(0,"Заполнить холодильник","Не забыть курицу",
                 Status.IN_PROGRESS));
 
-        taskManager.addSubtask(new Subtask(0,"Оформить доставку продуктов","Не забыть промокод",
+        manager.createSubtask(new Subtask(0,"Оформить доставку продуктов","Не забыть промокод",
                 Status.DONE,8));
-        taskManager.addSubtask(new Subtask(0,"Разобрать пакеты"," ", Status.IN_PROGRESS,
+        manager.createSubtask(new Subtask(0,"Разобрать пакеты"," ", Status.IN_PROGRESS,
                 8));
 
         // Получение конкретной задачи
-        System.out.println(taskManager.getTask(2));
-        System.out.println(taskManager.getEpic(8));
-        System.out.println(taskManager.getSubtask(10));
+        System.out.println(manager.getTask(2));
+        System.out.println(manager.getEpic(8));
+        System.out.println(manager.getSubtask(10));
+
+        // Получение списка просмотренных задач
+        System.out.println(manager.history());
 
         // Получение подзадач конкретного эпика
-        System.out.println(taskManager.getEpicSubtask(4));
+        System.out.println(manager.getEpicSubtask(4));
 
         // Обновление всех видов задач
-        taskManager.updateTask(new Task(2,"Оплатить квитанции","Не забыть счетчики", Status.DONE));
-        taskManager.updateEpic(new Epic(8,"Приготовить ужин","Не хватает курицы",
+        manager.updateTask(new Task(2,"Оплатить квитанции","Не забыть счетчики", Status.DONE));
+        manager.updateEpic(new Epic(8,"Приготовить ужин","Не хватает курицы",
                 Status.IN_PROGRESS));
-        taskManager.updateSubtask(new Subtask(10,"Сварить суп"," ", Status.IN_PROGRESS,
+        manager.updateSubtask(new Subtask(10,"Сварить суп"," ", Status.IN_PROGRESS,
                 8));
 
         // Изменение статуса конкретной задачи
-        taskManager.statusChangeTask(1,Status.DONE);
-        taskManager.statusChangeSubtask(10,Status.DONE);
+        manager.statusChangeTask(1,Status.DONE);
+        manager.statusChangeSubtask(10,Status.DONE);
 
         // Получение задач каждого из списков
-        System.out.println(taskManager.getAllTasks());
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
+        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllEpics());
+        System.out.println(manager.getAllSubtasks());
 
         // Удаление конкретной задачи
-        taskManager.deleteTask(2);
-        taskManager.deleteEpic(4);
-        taskManager.deleteSubtask(10);
+        manager.deleteTask(2);
+        manager.deleteEpic(4);
+        manager.deleteSubtask(10);
 
         // Очистка списков задач
-        taskManager.deleteAllTasks();
-        taskManager.deleteAllEpics();
-        taskManager.deleteAllSubtasks();
+        manager.deleteAllTasks();
+        manager.deleteAllEpics();
+        manager.deleteAllSubtasks();
+
     }
 }
