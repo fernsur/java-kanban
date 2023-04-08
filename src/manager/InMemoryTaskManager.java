@@ -31,8 +31,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int id) {
-        historyManager.add(tasks.get(id));
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        historyManager.add(task);
+        return task;
     }
 
     @Override
@@ -69,8 +70,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpic(int id) {
-        historyManager.add(epics.get(id));
-        return epics.get(id);
+        Epic epic = epics.get(id);
+        historyManager.add(epic);
+        return epic;
     }
 
     @Override
@@ -119,15 +121,18 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        updateSubtaskOfEpic(subtask);
-        statusChangeEpic(subtask.getEpicNumber());
+        if (subtasks.containsKey(subtask.getId())) {
+            subtasks.put(subtask.getId(), subtask);
+            updateSubtaskOfEpic(subtask);
+            statusChangeEpic(subtask.getEpicNumber());
+        }
     }
 
     @Override
     public Subtask getSubtask(int id) {
-        historyManager.add(subtasks.get(id));
-        return subtasks.get(id);
+        Subtask subtask = subtasks.get(id);
+        historyManager.add(subtask);
+        return subtask;
     }
 
     @Override
@@ -165,6 +170,7 @@ public class InMemoryTaskManager implements TaskManager {
         getSubtask(identifier).setStatus(status);
         statusChangeEpic(getSubtask(identifier).getEpicNumber());
     }
+
     @Override
     public List<Task> history() {
         return historyManager.getHistory();
@@ -190,7 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public void updateSubtaskOfEpic(Subtask subtask) {
+    private void updateSubtaskOfEpic(Subtask subtask) {
         int epicID = subtask.getEpicNumber();
         int subtaskID = subtask.getId();
         ArrayList<Integer> epicSubtasks = epics.get(epicID).getEpicSubtasks();
