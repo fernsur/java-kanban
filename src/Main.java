@@ -63,6 +63,9 @@ public class Main {
         manager.deleteEpic(4);
         manager.deleteSubtask(10);
 
+        // Получение списка просмотренных задач (учитывая удаления)
+        System.out.println(manager.history());
+
         // Очистка списков задач
         manager.deleteAllTasks();
         manager.deleteAllEpics();

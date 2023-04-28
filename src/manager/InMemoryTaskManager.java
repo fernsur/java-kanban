@@ -44,10 +44,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void deleteAllTasks() {
+        for (Integer id: tasks.keySet()){
+            historyManager.remove(id);
+        }
         tasks.clear();
     }
 
@@ -100,14 +104,22 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(id)) {
             for (int j : epics.get(id).getEpicSubtasks()) {
                 subtasks.remove(j);
+                historyManager.remove(j);
             }
             epics.remove(id);
+            historyManager.remove(id);
         }
     }
 
     @Override
     public void deleteAllEpics() {
+        for (Integer id: epics.keySet()){
+            historyManager.remove(id);
+        }
         epics.clear();
+        for (Integer id: subtasks.keySet()){
+            historyManager.remove(id);
+        }
         subtasks.clear();
     }
 
@@ -149,6 +161,7 @@ public class InMemoryTaskManager implements TaskManager {
             int epicID = subtasks.get(id).getEpicNumber();
             subtasks.remove(id);
             statusChangeEpic(epicID);
+            historyManager.remove(id);
         }
     }
 
@@ -157,18 +170,21 @@ public class InMemoryTaskManager implements TaskManager {
         for (Epic epic: epics.values()) {
             epic.getEpicSubtasks().clear();
         }
+        for (Integer id: subtasks.keySet()){
+            historyManager.remove(id);
+        }
         subtasks.clear();
     }
 
     @Override
     public void statusChangeTask(int identifier, Status status) {
-        getTask(identifier).setStatus(status);
+        tasks.get(identifier).setStatus(status);
     }
 
     @Override
     public void statusChangeSubtask(int identifier, Status status) {
-        getSubtask(identifier).setStatus(status);
-        statusChangeEpic(getSubtask(identifier).getEpicNumber());
+        subtasks.get(identifier).setStatus(status);
+        statusChangeEpic(subtasks.get(identifier).getEpicNumber());
     }
 
     @Override
