@@ -10,6 +10,11 @@ public class Epic extends Task {
         this.epicSubtasks = new ArrayList<>();
     }
 
+    public Epic(int id, String title, String description, Status status, ArrayList<Integer> epicSubtasks) {
+        super(id, title, description, status);
+        this.epicSubtasks = epicSubtasks;
+    }
+
     public ArrayList<Integer> getEpicSubtasks() {
         return epicSubtasks;
     }
@@ -28,5 +33,10 @@ public class Epic extends Task {
                 ", Подзадачи ='" + epicSubtasks + '\'' +
                 '}' +
                 "\n";
+    }
+
+    @Override
+    public String toStringFromFile() {
+        return String.format("%s,EPIC,%s,%s,%s,%s", id, title, description, status, epicSubtasks);
     }
 }

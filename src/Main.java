@@ -1,9 +1,12 @@
+import manager.FileBackedTasksManager;
 import manager.Managers;
 import manager.TaskManager;
 import tasks.Task;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Status;
+
+import java.io.File;
 
 public class Main {
 
@@ -63,8 +66,17 @@ public class Main {
         manager.deleteEpic(4);
         manager.deleteSubtask(10);
 
+        // Файл
+        TaskManager fileBackedTasksManager = FileBackedTasksManager
+                .loadFromFile(new File("resources/data.csv"));
+
         // Получение списка просмотренных задач (учитывая удаления)
         System.out.println(manager.history());
+
+        // Проверка, что файл считался
+        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllEpics());
+        System.out.println(manager.getAllSubtasks());
 
         // Очистка списков задач
         manager.deleteAllTasks();

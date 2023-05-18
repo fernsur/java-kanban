@@ -22,4 +22,9 @@ public class Subtask extends Task {
                 '}' +
                 "\n";
     }
+
+    @Override
+    public String toStringFromFile() {
+        return String.format("%s,SUBTASK,%s,%s,%s,%s", id, title, description, status, epicNumber);
+    }
 }
