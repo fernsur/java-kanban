@@ -1,7 +1,7 @@
-id, taskType, title, description, status, epicSubtasks
-1,TASK,Выключить посудомойку,В 12:30,DONE
-3,TASK,Заказать воду,До 14:00,NEW
-8,EPIC,Приготовить ужин,Не хватает курицы,DONE,[9]
-9,SUBTASK,Оформить доставку продуктов,Не забыть промокод,DONE,8
+id, type, title, status, description, epic
+1,TASK,Выключить посудомойку,DONE,В 12:30
+3,TASK,Заказать воду,NEW,До 14:00
+8,EPIC,Приготовить ужин,DONE,Не хватает курицы
+9,SUBTASK,Оформить доставку продуктов,DONE,Не забыть промокод,8
 
 8

@@ -25,6 +25,6 @@ public class Subtask extends Task {
 
     @Override
     public String toStringFromFile() {
-        return String.format("%s,SUBTASK,%s,%s,%s,%s", id, title, description, status, epicNumber);
+        return String.format("%s,SUBTASK,%s,%s,%s,%s", id, title, status, description, epicNumber);
     }
 }

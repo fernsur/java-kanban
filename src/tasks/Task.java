@@ -40,6 +40,6 @@ public class Task {
     }
 
     public String toStringFromFile() {
-        return String.format("%s,TASK,%s,%s,%s", id, title, description, status);
+        return String.format("%s,TASK,%s,%s,%s", id, title, status, description);
     }
 }
