@@ -49,27 +49,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             switch (taskType) {
                 case TASK:
                     id = task.getId();
-                    if (fileBackedTasksManager.tasks.containsKey(id)) {
-                        fileBackedTasksManager.createTask(task);
-                    } else {
-                        fileBackedTasksManager.tasks.put(id,task);
-                    }
+                    fileBackedTasksManager.checkId(id);
+                    fileBackedTasksManager.tasks.put(id,task);
                     break;
                 case EPIC:
                     id = task.getId();
-                    if (fileBackedTasksManager.epics.containsKey(id)) {
-                        fileBackedTasksManager.createEpic((Epic) task);
-                    } else {
-                        fileBackedTasksManager.epics.put(id,(Epic) task);
-                    }
+                    fileBackedTasksManager.checkId(id);
+                    fileBackedTasksManager.epics.put(id,(Epic) task);
                     break;
                 case SUBTASK:
                     id = task.getId();
-                    if (fileBackedTasksManager.subtasks.containsKey(id)) {
-                        fileBackedTasksManager.createSubtask((Subtask) task);
-                    } else {
-                        fileBackedTasksManager.subtasks.put(id,(Subtask) task);
-                    }
+                    fileBackedTasksManager.checkId(id);
+                    fileBackedTasksManager.subtasks.put(id,(Subtask) task);
                     break;
             }
         }
@@ -88,6 +79,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             fileBackedTasksManager.historyManager.add(task);
         }
         return fileBackedTasksManager;
+    }
+
+    private void checkId(int id) {
+        if (id > identifier) {
+            identifier = id + 1;
+        }
     }
 
     public void save() {

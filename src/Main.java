@@ -82,6 +82,5 @@ public class Main {
         manager.deleteAllTasks();
         manager.deleteAllEpics();
         manager.deleteAllSubtasks();
-
     }
 }
