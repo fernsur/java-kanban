@@ -22,10 +22,6 @@ import static manager.CSVTaskFormat.*;
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final File file;
 
-    public FileBackedTasksManager() {
-        this.file = new File("resources/data.csv");
-    }
-
     public FileBackedTasksManager(File file) {
         this.file = file;
     }
@@ -40,8 +36,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             throw new ManagerOpenException("Не удалось считать файл.");
         }
         String[] lines = data.split("\n");
-        for (int i = 1; i < lines.length-2; i++) {
+        for (int i = 1; i < lines.length; i++) {
             int id = -1;
+            if (lines[i].isBlank()) {
+                break;
+            }
             String[] parts = lines[i].split(",");
             TaskType taskType = TaskType.valueOf(parts[1]);
             Task task = fromString(parts);
@@ -64,19 +63,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     break;
             }
         }
-
-        String history = lines[lines.length-1];
-        List<Integer> idHistory = historyFromString(history);
-        for (Integer id: idHistory) {
-            Task task = null;
-            if (fileBackedTasksManager.tasks.containsKey(id)){
-                task = fileBackedTasksManager.tasks.get(id);
-            } else if (fileBackedTasksManager.epics.containsKey(id)){
-                task = fileBackedTasksManager.epics.get(id);
-            } else if (fileBackedTasksManager.subtasks.containsKey(id)){
-                task = fileBackedTasksManager.subtasks.get(id);
+        int readLimit = 3;
+        if (lines.length > readLimit) {
+            //String history = lines[lines.length - 1];
+            if (!(lines[lines.length - 1].isBlank())) {
+                String history = lines[lines.length - 1];
+                List<Integer> idHistory = historyFromString(history);
+                for (Integer id : idHistory) {
+                    Task task = null;
+                    if (fileBackedTasksManager.tasks.containsKey(id)) {
+                        task = fileBackedTasksManager.tasks.get(id);
+                    } else if (fileBackedTasksManager.epics.containsKey(id)) {
+                        task = fileBackedTasksManager.epics.get(id);
+                    } else if (fileBackedTasksManager.subtasks.containsKey(id)) {
+                        task = fileBackedTasksManager.subtasks.get(id);
+                    }
+                    fileBackedTasksManager.historyManager.add(task);
+                }
             }
-            fileBackedTasksManager.historyManager.add(task);
         }
         return fileBackedTasksManager;
     }
@@ -89,7 +93,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public void save() {
         try (FileWriter writer = new FileWriter(file)) {
-            writer.write("id, type, title, status, description, epic\n");
+            writer.write("id, type, title, status, description, epic, duration, startTime\n");
             List<String> allTasks = new ArrayList<>();
 
             List<Task> tasks = super.getAllTasks();
@@ -111,7 +115,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 writer.write(String.format("%s\n", line));
             }
 
-            writer.write("\n");
+            writer.write(" \n");
             writer.write(historyToString(this.historyManager));
         } catch (IOException exception) {
             throw new ManagerSaveException("Не удалось сохранить файл.");

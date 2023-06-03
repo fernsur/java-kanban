@@ -1,6 +1,7 @@
 package manager;
 
 import java.util.List;
+import java.util.Set;
 
 import tasks.Task;
 import tasks.Epic;
@@ -52,5 +53,7 @@ public interface TaskManager {
     void statusChangeSubtask(int identifier, Status status);
 
     List<Task> history();
+
+    Set<Task> getPrioritizedTasks();
 
 }

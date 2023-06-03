@@ -1,8 +1,14 @@
 package manager;
 
+import java.io.File;
+
 public class Managers {
     public static TaskManager getDefault(){
-        return new FileBackedTasksManager();
+        return new InMemoryTaskManager();
+    }
+
+    public static TaskManager getFileBackedTasksManager(File file) {
+        return new FileBackedTasksManager(file);
     }
 
     public static HistoryManager getDefaultHistory(){

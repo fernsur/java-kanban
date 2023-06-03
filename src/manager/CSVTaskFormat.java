@@ -6,6 +6,7 @@ import tasks.Subtask;
 import tasks.Status;
 import tasks.TaskType;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,17 @@ public class CSVTaskFormat {
         String title = parts[2];
         Status status = Status.valueOf(parts[3]);
         String description = parts[4];
+        long duration = Long.parseLong(parts[6]);;
+        LocalDateTime startTime = LocalDateTime.parse(parts[7]);;
 
         switch (type) {
             case TASK:
-                return new Task(id, title, description, status);
+                return new Task(id, title, description, status, duration, startTime);
             case EPIC:
-                return new Epic(id,title,description,status);
+                return new Epic(id, title, description, status, duration, startTime);
             case SUBTASK:
                 int epicNumber = Integer.parseInt(parts[5]);
-                return new Subtask(id,title,description,status,epicNumber);
+                return new Subtask(id, title, description, status, epicNumber, duration, startTime);
             default:
                 return null;
         }
