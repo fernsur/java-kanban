@@ -62,7 +62,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     id = task.getId();
                     fileBackedTasksManager.checkId(id);
                     fileBackedTasksManager.subtasks.put(id,(Subtask) task);
-                    fileBackedTasksManager.updateEpicField((Subtask) task);
+                    fileBackedTasksManager.updateSubtaskOfEpic((Subtask) task);
                     break;
             }
         }
@@ -92,6 +92,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             identifier = id + 1;
         }
     }
+
+    private void updateSubtaskOfEpic(Subtask subtask) {
+        int idEpic = subtask.getEpicNumber();
+        Integer idSubtask = subtask.getId();
+        Epic epic = epics.get(idEpic);
+        epic.setEpicSubtasks(idSubtask);
+        epics.put(idEpic,epic);
+    }
+
     private void save() {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("id, type, title, status, description, epic, duration, startTime\n");

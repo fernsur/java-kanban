@@ -41,11 +41,15 @@ public class Epic extends Task {
     }
 
     public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration);
+        return endTime;
     }
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void setEpicSubtasks(Integer epicSubtasks) {
+        this.epicSubtasks.add(epicSubtasks);
     }
 
     @Override

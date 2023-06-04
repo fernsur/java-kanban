@@ -226,11 +226,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void tasksWithoutIntersections(Task task) {
         LocalDateTime startTime = task.getStartTime();
-        LocalDateTime endTime = startTime.plusMinutes(task.getDuration());
+        LocalDateTime endTime = task.getEndTime();
 
         for (Task curTask : prioritizedTasks.values()) {
             LocalDateTime start = curTask.getStartTime();
-            LocalDateTime end = start.plusMinutes(curTask.getDuration());
+            LocalDateTime end = curTask.getEndTime();
             if ((startTime.isAfter(start) && startTime.isBefore(end))
                     || (endTime.isAfter(start) && endTime.isBefore(end))) {
                 throw new TaskValidationException("Задачи пересекаются по времени!");
@@ -240,8 +240,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     protected void updateEpicField(Subtask subtask) {
         updateSubtaskOfEpic(subtask);
-        statusChangeEpic(subtask.getEpicNumber());
-        changeTimeEpic(subtask.getEpicNumber());
+        updateEpicFieldStatusAndTime(subtask.getEpicNumber());
     }
 
     private void updateEpicFieldStatusAndTime(int epicId) {

@@ -75,6 +75,10 @@ public class Task {
         this.startTime = startTime;
     }
 
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration);
+    }
+
     @Override
     public String toString() {
         return "ЗАДАЧА {" +
