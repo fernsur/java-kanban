@@ -35,8 +35,8 @@ public class CSVTaskFormat {
         String title = parts[2];
         Status status = Status.valueOf(parts[3]);
         String description = parts[4];
-        long duration = Long.parseLong(parts[6]);;
-        LocalDateTime startTime = LocalDateTime.parse(parts[7]);;
+        long duration = Long.parseLong(parts[6]);
+        LocalDateTime startTime = LocalDateTime.parse(parts[7]);
 
         switch (type) {
             case TASK:

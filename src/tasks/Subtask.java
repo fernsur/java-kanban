@@ -18,7 +18,6 @@ public class Subtask extends Task {
         super(title, description, status, duration, startTime);
         this.id = 0;
         this.epicNumber = epicNumber;
-        this.endTime = getEndTime();
     }
 
     public int getEpicNumber() {
@@ -35,7 +34,8 @@ public class Subtask extends Task {
                 ", Относится к эпику ='" + epicNumber + '\'' +
                 ", Длительность ='" + duration + '\'' +
                 ", Дата начала ='" + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
-                ", Дата конца ='" + endTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
+                ", Дата конца ='" + startTime
+                   .plusMinutes(duration).format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
                 '}' +
                 "\n";
     }
@@ -53,12 +53,11 @@ public class Subtask extends Task {
         if (this.getClass() != obj.getClass()) return false;
         Subtask subTask = (Subtask) obj;
         return subTask.title.equals(title) && subTask.description.equals(description)
-                && subTask.status.equals(status) && subTask.startTime.isEqual(startTime)
-                && subTask.endTime.isEqual(endTime);
+                && subTask.status.equals(status) && subTask.startTime.isEqual(startTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title,description,status,startTime,endTime);
+        return Objects.hash(title,description,status,startTime);
     }
 }

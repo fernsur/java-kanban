@@ -17,7 +17,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static manager.CSVTaskFormat.*;
+import static manager.CSVTaskFormat.historyToString;
+import static manager.CSVTaskFormat.historyFromString;
+import static manager.CSVTaskFormat.fromString;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final File file;
@@ -60,12 +62,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     id = task.getId();
                     fileBackedTasksManager.checkId(id);
                     fileBackedTasksManager.subtasks.put(id,(Subtask) task);
+                    fileBackedTasksManager.updateEpicField((Subtask) task);
                     break;
             }
         }
         int readLimit = 3;
         if (lines.length > readLimit) {
-            //String history = lines[lines.length - 1];
             if (!(lines[lines.length - 1].isBlank())) {
                 String history = lines[lines.length - 1];
                 List<Integer> idHistory = historyFromString(history);
@@ -90,8 +92,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             identifier = id + 1;
         }
     }
-
-    public void save() {
+    private void save() {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("id, type, title, status, description, epic, duration, startTime\n");
             List<String> allTasks = new ArrayList<>();
@@ -225,10 +226,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void statusChangeSubtask(int identifier, Status status) {
         super.statusChangeSubtask(identifier,status);
         save();
-    }
-
-    @Override
-    public List<Task> history() {
-        return super.history();
     }
 }

@@ -1,6 +1,5 @@
-package manager.test;
+package test;
 
-import exceptions.ManagerSaveException;
 import manager.FileBackedTasksManager;
 import manager.Managers;
 import manager.TaskManager;
@@ -17,14 +16,13 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
     @BeforeEach
     public void startManager() {
         taskManager = (FileBackedTasksManager) Managers
-                .getFileBackedTasksManager(new File("src/manager/test/resources/dataTest.csv"));
+                .getFileBackedTasksManager(new File("src/test/resources/dataTest.csv"));
     }
 
     @Test
@@ -47,7 +45,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         final Subtask savedSubtask = taskManager.getSubtask(subtaskId);
 
         TaskManager fileBackedTasksManager = FileBackedTasksManager
-                .loadFromFile(new File("src/manager/test/resources/dataTest.csv"));
+                .loadFromFile(new File("src/test/resources/dataTest.csv"));
 
         assertEquals(3, fileBackedTasksManager.getAllTasks().size(),
                 "Количество задач после загрузки из файла не совпадает.");
@@ -67,7 +65,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         taskManager.deleteAllSubtasks();
 
         TaskManager fileBackedTasksManager = FileBackedTasksManager
-                .loadFromFile(new File("src/manager/test/resources/dataTest.csv"));
+                .loadFromFile(new File("src/test/resources/dataTest.csv"));
 
         assertEquals(0, fileBackedTasksManager.getAllTasks().size(),
                 "Количество задач после загрузки из файла не совпадает.");
@@ -93,7 +91,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         taskManager.createSubtask(subtask3);
 
         TaskManager fileBackedTasksManager = FileBackedTasksManager
-                .loadFromFile(new File("src/manager/test/resources/dataTest.csv"));
+                .loadFromFile(new File("src/test/resources/dataTest.csv"));
 
         assertEquals(3, fileBackedTasksManager.getAllTasks().size(),
                 "Количество задач после загрузки из файла не совпадает.");
@@ -104,13 +102,5 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
         List<Task> history = taskManager.history();
         assertEquals(Collections.EMPTY_LIST, history, "История не пуста.");
-    }
-
-    @Test
-    public void shouldThrowExceptionWhenSaveManager() {
-        FileBackedTasksManager taskManager = (FileBackedTasksManager) Managers
-                .getFileBackedTasksManager(new File("resources"));
-        ManagerSaveException ex = assertThrows(ManagerSaveException.class, taskManager::save);
-        assertEquals("Не удалось сохранить файл.", ex.getMessage());
     }
 }

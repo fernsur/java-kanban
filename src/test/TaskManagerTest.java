@@ -1,5 +1,6 @@
-package manager.test;
+package test;
 
+import exceptions.TaskValidationException;
 import manager.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,6 @@ import tasks.Task;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -23,16 +23,16 @@ import static tasks.Status.*;
 public abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;
 
-    public static Task task1;
-    public static Task task2;
-    public static Task task3;
-    public static Epic epic1;
-    public static Epic epic2;
-    public static Subtask subtask1;
-    public static Subtask subtask2;
-    public static Subtask subtask3;
-    public static Subtask subtask4;
-    public static Subtask subtask5;
+    protected Task task1;
+    protected Task task2;
+    protected Task task3;
+    protected Epic epic1;
+    protected Epic epic2;
+    protected Subtask subtask1;
+    protected Subtask subtask2;
+    protected Subtask subtask3;
+    protected Subtask subtask4;
+    protected Subtask subtask5;
 
     @BeforeEach
     public void beforeEach() {
@@ -737,28 +737,23 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void shouldListPrioritizedTasks() {
-        Set<Task> prioritized = taskManager.getPrioritizedTasks();
-        assertNotNull(prioritized, "Список задач по приоритету не выводится.");
-    }
-
-    @Test
-    public void shouldListPrioritizedSortIfTimeSet() {
         taskManager.createTask(task1);
-        Task task = new Task(2, "Оплатить квитанции","Не забыть счетчики", Status.DONE,
-                0, LocalDateTime.of(2023, 6, 1, 0, 0));
-        taskManager.createTask(task);
-        Set<Task> prioritized = taskManager.getPrioritizedTasks();
-        assertEquals(Set.of(task1,task), prioritized,
-                "Список задач по приоритету не сортируется, если у задачи не задано время.");
+        taskManager.createTask(task2);
+        taskManager.createTask(task3);
+
+        List<Task> prioritized = taskManager.getPrioritizedTasks();
+        assertNotNull(prioritized, "Список задач по приоритету не выводится.");
+        assertEquals(List.of(task2,task3,task1), prioritized,
+                "Задачи не сортируются по приоритету.");
     }
 
     @Test
-    public void shouldThrowExceptionWhen() {
+    public void shouldThrowExceptionWhenTaskIntersectInTime() {
         taskManager.createTask(task1);
         Task task = new Task("Title","Description", Status.NEW,3,
                 LocalDateTime.of(2023, 6, 1, 12, 31));
-        RuntimeException ex = assertThrows(
-                RuntimeException.class, () -> taskManager.createTask(task));
+        TaskValidationException ex = assertThrows(
+                TaskValidationException.class, () -> taskManager.createTask(task));
         assertEquals("Задачи пересекаются по времени!", ex.getMessage());
     }
 }

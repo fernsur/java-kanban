@@ -11,7 +11,6 @@ public class Task {
     protected Status status;
     protected long duration;
     protected LocalDateTime startTime;
-    protected LocalDateTime endTime;
 
     public Task(int id, String title, String description, Status status, long duration, LocalDateTime startTime) {
         this.id = id;
@@ -20,7 +19,6 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
-        this.endTime = getEndTime();
     }
 
     public Task(String title, String description, Status status, long duration, LocalDateTime startTime) {
@@ -30,7 +28,6 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
-        this.endTime = getEndTime();
     }
 
     public Task(int id, String title, String description, Status status) {
@@ -44,10 +41,6 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
-    }
-
-    public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration);
     }
 
     public int getId() {
@@ -82,14 +75,6 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public LocalDateTime getEndTimeClean() {
-        return endTime;
-    }
-
     @Override
     public String toString() {
         return "ЗАДАЧА {" +
@@ -99,7 +84,8 @@ public class Task {
                 ", Статус ='" + status + '\'' +
                 ", Длительность ='" + duration + '\'' +
                 ", Дата начала ='" + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
-                ", Дата конца ='" + endTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
+                ", Дата конца ='" + startTime
+                   .plusMinutes(duration).format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\'' +
                 '}' +
                 "\n";
     }
@@ -115,12 +101,11 @@ public class Task {
         if (this.getClass() != obj.getClass()) return false;
         Task task = (Task) obj;
         return task.title.equals(title) && task.description.equals(description)
-                && task.status.equals(status) && task.startTime.isEqual(startTime)
-                && task.endTime.isEqual(endTime);
+                && task.status.equals(status) && task.startTime.isEqual(startTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title,description,status,startTime,endTime);
+        return Objects.hash(title,description,status,startTime);
     }
 }
