@@ -7,6 +7,10 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
+    public static TaskManager getHttpTaskManager(String url){
+        return new HttpTaskManager(url);
+    }
+
     public static TaskManager getFileBackedTasksManager(File file) {
         return new FileBackedTasksManager(file);
     }

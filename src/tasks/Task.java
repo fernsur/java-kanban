@@ -37,10 +37,19 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String title, String description, Status status) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.status = status;
+    }
+
+    public Task(int id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public int getId() {

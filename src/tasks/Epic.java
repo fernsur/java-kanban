@@ -24,12 +24,22 @@ public class Epic extends Task {
         this.endTime = getEndTime();
     }
 
-    public Epic(String title, String description, Status status, LocalDateTime startTime) {
-        super(title, description, status);
+    public Epic(String title, String description) {
+        super(title, description);
+        this.status = Status.NEW;
         this.epicSubtasks = new ArrayList<>();
-        this.startTime = startTime;
+        this.startTime = LocalDateTime.now();
         this.duration = 0;
-        this.endTime = getEndTime();
+        this.endTime = LocalDateTime.now();
+    }
+
+    public Epic(int id, String title, String description) {
+        super(id, title, description);
+        this.status = Status.NEW;
+        this.epicSubtasks = new ArrayList<>();
+        this.startTime = LocalDateTime.now();
+        this.duration = 0;
+        this.endTime = LocalDateTime.now();
     }
 
     public List<Integer> getEpicSubtasks() {

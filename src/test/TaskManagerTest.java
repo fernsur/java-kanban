@@ -43,8 +43,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         task3 = new Task("Заказать воду","До 14:00", Status.NEW,15,
                 LocalDateTime.of(2023, 5, 30, 9, 5));
 
-        epic1 = new Epic("Отправить посылку","До 3.06", Status.IN_PROGRESS,
-                LocalDateTime.of(2023, 5, 31, 19, 20));
+        epic1 = new Epic("Отправить посылку","До 3.06");
 
         subtask1 = new Subtask("Упаковать посылку","Перемотать скотчем коробку",
                 Status.DONE, 4,60, LocalDateTime.of(2023, 5,
@@ -56,8 +55,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                 Status.NEW, 4,60, LocalDateTime.of(2023, 6,
                 1, 12, 0));
 
-        epic2 = new Epic("Заполнить холодильник","Не забыть курицу",
-                Status.IN_PROGRESS, LocalDateTime.of(2023, 6, 1, 14, 30));
+        epic2 = new Epic("Заполнить холодильник","Не забыть курицу");
 
         subtask4 = new Subtask("Оформить доставку продуктов","Не забыть промокод",
                 Status.DONE,8,15, LocalDateTime.of(2023, 6,
