@@ -37,7 +37,7 @@ public class HttpTaskServer {
         httpServer.start();
     }
 
-    public void handle(HttpExchange exchange) throws IOException {
+    private void handle(HttpExchange exchange) throws IOException {
         URI uri = exchange.getRequestURI();
         String path = uri.getPath();
         String method = exchange.getRequestMethod();

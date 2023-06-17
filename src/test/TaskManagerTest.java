@@ -213,8 +213,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);
 
-        Epic epic = new Epic(2,"Приготовить ужин","Не хватает курицы",
-                Status.IN_PROGRESS, LocalDateTime.of(2023, 6, 1, 14, 30));
+        Epic epic = new Epic(2,"Приготовить ужин","Не хватает курицы");
 
         taskManager.updateEpic(epic);
 

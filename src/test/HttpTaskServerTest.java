@@ -42,7 +42,7 @@ class HttpTaskServerTest {
     private final HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws IOException {
         task1 = new Task("Выключить посудомойку", "В 12:30", Status.NEW, 5,
                 LocalDateTime.of(2023, 6, 1, 12, 30));
         task2 = new Task("Забрать квитанции", "Из почтового ящика", Status.DONE, 5,
@@ -63,10 +63,7 @@ class HttpTaskServerTest {
                 1, 12, 0));
 
         epic2 = new Epic("Заполнить холодильник", "Не забыть курицу");
-    }
 
-    @BeforeEach
-    public void start() throws IOException {
         kvServer = new KVServer();
         kvServer.start();
         httpTaskServer = new HttpTaskServer();

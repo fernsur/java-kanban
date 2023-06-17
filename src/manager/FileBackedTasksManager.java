@@ -22,10 +22,13 @@ import static manager.CSVTaskFormat.historyFromString;
 import static manager.CSVTaskFormat.fromString;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final File file;
+    private File file;
 
     public FileBackedTasksManager(File file) {
         this.file = file;
+    }
+
+    public FileBackedTasksManager() {
     }
 
     public static FileBackedTasksManager loadFromFile(File file) {
@@ -101,7 +104,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         epics.put(idEpic,epic);
     }
 
-    private void save() {
+    protected void save() {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("id, type, title, status, description, epic, duration, startTime\n");
             List<String> allTasks = new ArrayList<>();
